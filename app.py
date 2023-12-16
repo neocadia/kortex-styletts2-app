@@ -175,5 +175,5 @@ docker run -it -p 7860:7860 --platform=linux/amd64 --gpus all registry.hf.space/
 """)
 if __name__ == "__main__":
     # demo.queue(api_open=False, max_size=15).launch(show_api=False)
-    demo.queue(api_open=True, max_size=15).launch(show_api=True)
+    demo.queue(api_open=False, max_size=15).launch(show_api=False)
 
