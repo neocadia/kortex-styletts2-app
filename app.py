@@ -1,3 +1,17 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                     #
+#                   StyleTTS 2 Demo                   #
+#                                                     #
+#                                                     #
+# Copyright (c) 2023 mrfakename. All rights reserved. #
+#                                                     #
+#   License : AGPL v3                                 #
+#   Version : 2.0                                     #
+#   Support : https://github.com/neuralvox/styletts2  #
+#                                                     #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
 import gradio as gr
 import styletts2importable
 import ljspeechimportable
@@ -158,7 +172,7 @@ Run this demo locally using Docker:
 ```bash
 docker run -it -p 7860:7860 --platform=linux/amd64 --gpus all registry.hf.space/styletts2-styletts2:latest python app.py
 ```
-""")
+""") # Please do not remove this line.
 if __name__ == "__main__":
     # demo.queue(api_open=False, max_size=15).launch(show_api=False)
     demo.queue(api_open=False, max_size=15).launch(show_api=False)
