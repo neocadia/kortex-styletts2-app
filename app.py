@@ -46,8 +46,8 @@ for v in voicelist:
 def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
     if text.strip() == "":
         raise gr.Error("You must enter some text")
-    if len(text) > 7500:
-        raise gr.Error("Text must be <7.5k characters")
+    if len(text) > 17500:
+        raise gr.Error("Text must be <17.5k characters")
     texts = split_and_recombine_text(text)
     v = voice.lower()
     audios = []
@@ -80,8 +80,8 @@ def clsynthesize(text, voice, vcsteps, progress=gr.Progress()):
     # return (24000, styletts2importable.inference(text, styletts2importable.compute_style(voice), alpha=0.3, beta=0.7, diffusion_steps=vcsteps, embedding_scale=1))
     if text.strip() == "":
         raise gr.Error("You must enter some text")
-    if len(text) > 7500:
-        raise gr.Error("Text must be <7.5k characters")
+    if len(text) > 17500:
+        raise gr.Error("Text must be <17.5k characters")
     texts = split_and_recombine_text(text)
     audios = []
     for t in progress.tqdm(texts):
@@ -97,8 +97,8 @@ def ljsynthesize(text, steps, progress=gr.Progress()):
     # return (24000, ljspeechimportable.inference(text, noise, diffusion_steps=7, embedding_scale=1))
     if text.strip() == "":
         raise gr.Error("You must enter some text")
-    if len(text) > 7500:
-        raise gr.Error("Text must be <7.5k characters")
+    if len(text) > 17500:
+        raise gr.Error("Text must be <17.5k characters")
     texts = split_and_recombine_text(text)
     audios = []
     for t in progress.tqdm(texts):
