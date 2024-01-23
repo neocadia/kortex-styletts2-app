@@ -3,7 +3,7 @@ import styletts2importable
 import ljspeechimportable
 import torch
 import os
-from tortoise.utils.text import split_and_recombine_text
+from txtsplit import txtsplit
 import numpy as np
 import pickle
 theme = gr.themes.Base(
@@ -34,7 +34,7 @@ def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 50000:
         raise gr.Error("Text must be <50k characters")
-    texts = split_and_recombine_text(text)
+    texts = txtsplit(text)
     v = voice.lower()
     audios = []
     for t in progress.tqdm(texts):
