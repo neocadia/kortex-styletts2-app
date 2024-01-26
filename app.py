@@ -68,7 +68,7 @@ def clsynthesize(text, voice, vcsteps, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 50000:
         raise gr.Error("Text must be <50k characters")
-    texts = split_and_recombine_text(text)
+    texts = txtsplit(text)
     audios = []
     for t in progress.tqdm(texts):
         audios.append(styletts2importable.inference(t, styletts2importable.compute_style(voice), alpha=0.3, beta=0.7, diffusion_steps=vcsteps, embedding_scale=1))
@@ -85,7 +85,7 @@ def ljsynthesize(text, steps, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 150000:
         raise gr.Error("Text must be <150k characters")
-    texts = split_and_recombine_text(text)
+    texts = txtsplit(text)
     audios = []
     for t in progress.tqdm(texts):
         audios.append(ljspeechimportable.inference(t, noise, diffusion_steps=steps, embedding_scale=1))
