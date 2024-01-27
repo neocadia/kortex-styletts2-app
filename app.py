@@ -92,7 +92,7 @@ def ljsynthesize(text, steps, progress=gr.Progress()):
     return (24000, np.concatenate(audios))
 
 
-with gr.Blocks() as vctk: # just realized it isn't vctk but libritts but i'm too lazy to change it rn
+with gr.Blocks() as vctk:
     with gr.Row():
         with gr.Column(scale=1):
             inp = gr.Textbox(label="Text", info="What would you like StyleTTS 2 to read? It works better on full sentences.", interactive=True)
@@ -101,17 +101,17 @@ with gr.Blocks() as vctk: # just realized it isn't vctk but libritts but i'm too
             # use_gruut = gr.Checkbox(label="Use alternate phonemizer (Gruut) - Experimental")
         with gr.Column(scale=1):
             btn = gr.Button("Synthesize", variant="primary")
-            audio = gr.Audio(interactive=False, label="Synthesized Audio")
+            audio = gr.Audio(interactive=False, label="Synthesized Audio", waveform_options={'waveform_progress_color': '#3C82F6'})
             btn.click(synthesize, inputs=[inp, voice, multispeakersteps], outputs=[audio], concurrency_limit=4)
 with gr.Blocks() as clone:
     with gr.Row():
         with gr.Column(scale=1):
             clinp = gr.Textbox(label="Text", info="What would you like StyleTTS 2 to read? It works better on full sentences.", interactive=True)
-            clvoice = gr.Audio(label="Voice", interactive=True, type='filepath', max_length=300)
+            clvoice = gr.Audio(label="Voice", interactive=True, type='filepath', max_length=300, waveform_options={'waveform_progress_color': '#3C82F6'})
             vcsteps = gr.Slider(minimum=3, maximum=20, value=20, step=1, label="Diffusion Steps", info="Theoretically, higher should be better quality but slower, but we cannot notice a difference. Try with lower steps first - it is faster", interactive=True)
         with gr.Column(scale=1):
             clbtn = gr.Button("Synthesize", variant="primary")
-            claudio = gr.Audio(interactive=False, label="Synthesized Audio")
+            claudio = gr.Audio(interactive=False, label="Synthesized Audio", waveform_options={'waveform_progress_color': '#3C82F6'})
             clbtn.click(clsynthesize, inputs=[clinp, clvoice, vcsteps], outputs=[claudio], concurrency_limit=4)
 # with gr.Blocks() as longText:
 #     with gr.Row():
@@ -131,7 +131,7 @@ with gr.Blocks() as lj:
             ljsteps = gr.Slider(minimum=3, maximum=20, value=3, step=1, label="Diffusion Steps", info="Theoretically, higher should be better quality but slower, but we cannot notice a difference. Try with lower steps first - it is faster", interactive=True)
         with gr.Column(scale=1):
             ljbtn = gr.Button("Synthesize", variant="primary")
-            ljaudio = gr.Audio(interactive=False, label="Synthesized Audio")
+            ljaudio = gr.Audio(interactive=False, label="Synthesized Audio", waveform_options={'waveform_progress_color': '#3C82F6'})
             ljbtn.click(ljsynthesize, inputs=[ljinp, ljsteps], outputs=[ljaudio], concurrency_limit=4)
 with gr.Blocks(title="StyleTTS 2", css="footer{display:none !important}", theme=theme) as demo:
     gr.Markdown("""# StyleTTS 2
