@@ -1,3 +1,15 @@
+INTROTXT = """# StyleTTS 2
+
+[Paper](https://arxiv.org/abs/2306.07691) - [Samples](https://styletts2.github.io/) - [Code](https://github.com/yl4579/StyleTTS2) - [Discord](https://discord.gg/ha8sxdG2K4)
+
+A free demo of StyleTTS 2. **I am not affiliated with the StyleTTS 2 Authors.**
+
+**Before using this demo, you agree to inform the listeners that the speech samples are synthesized by the pre-trained models, unless you have the permission to use the voice you synthesize. That is, you agree to only use voices whose speakers grant the permission to have their voice cloned, either directly or by license before making synthesized voices public, or you have to publicly announce that these voices are synthesized if you do not have the permission to use these voices.**
+
+Is there a long queue on this space? Duplicate it and add a more powerful GPU to skip the wait! **Note: Thank you to Hugging Face for their generous GPU grant program!**
+
+**NOTE: StyleTTS 2 does better on longer texts.** For example, making it say "hi" will produce a lower-quality result than making it say a longer phrase.
+"""
 import gradio as gr
 import styletts2importable
 import ljspeechimportable
@@ -29,6 +41,7 @@ for v in voicelist:
 #     v = voice.lower()
 #     # return (24000, styletts2importable.inference(text, voices[v], alpha=0.3, beta=0.7, diffusion_steps=7, embedding_scale=1))
 #     return (24000, styletts2importable.inference(text, voices[v], alpha=0.3, beta=0.7, diffusion_steps=multispeakersteps, embedding_scale=1))
+if not torch.cuda.is_available(): INTROTXT += "\n\n### You are on a CPU-only system, inference will be much slower.\n\nYou can use the [online demo](https://huggingface.co/spaces/styletts2/styletts2) for fast inference."
 def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
     if text.strip() == "":
         raise gr.Error("You must enter some text")
@@ -143,17 +156,7 @@ with gr.Blocks() as lj:
             ljaudio = gr.Audio(interactive=False, label="Synthesized Audio", waveform_options={'waveform_progress_color': '#3C82F6'})
             ljbtn.click(ljsynthesize, inputs=[ljinp, ljsteps], outputs=[ljaudio], concurrency_limit=4)
 with gr.Blocks(title="StyleTTS 2", css="footer{display:none !important}", theme=theme) as demo:
-    gr.Markdown("""# StyleTTS 2
-
-[Paper](https://arxiv.org/abs/2306.07691) - [Samples](https://styletts2.github.io/) - [Code](https://github.com/yl4579/StyleTTS2)
-
-A free demo of StyleTTS 2. **I am not affiliated with the StyleTTS 2 Authors.**
-
-**Before using this demo, you agree to inform the listeners that the speech samples are synthesized by the pre-trained models, unless you have the permission to use the voice you synthesize. That is, you agree to only use voices whose speakers grant the permission to have their voice cloned, either directly or by license before making synthesized voices public, or you have to publicly announce that these voices are synthesized if you do not have the permission to use these voices.**
-
-Is there a long queue on this space? Duplicate it and add a more powerful GPU to skip the wait! **Note: Thank you to Hugging Face for their generous GPU grant program!**
-
-**NOTE: StyleTTS 2 does better on longer texts.** For example, making it say "hi" will produce a lower-quality result than making it say a longer phrase.""")
+    gr.Markdown(INTROTXT)
     gr.DuplicateButton("Duplicate Space")
     # gr.TabbedInterface([vctk, clone, lj, longText], ['Multi-Voice', 'Voice Cloning', 'LJSpeech', 'Long Text [Beta]'])
     gr.TabbedInterface([vctk, clone, lj], ['Multi-Voice', 'Voice Cloning', 'LJSpeech', 'Long Text [Beta]'])
