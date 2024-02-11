@@ -34,6 +34,9 @@ def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 50000:
         raise gr.Error("Text must be <50k characters")
+    print("*** saying ***")
+    print(text)
+    print("*** end ***")
     texts = txtsplit(text)
     v = voice.lower()
     audios = []
@@ -68,6 +71,9 @@ def clsynthesize(text, voice, vcsteps, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 50000:
         raise gr.Error("Text must be <50k characters")
+    print("*** saying ***")
+    print(text)
+    print("*** end ***")
     texts = txtsplit(text)
     audios = []
     for t in progress.tqdm(texts):
@@ -85,6 +91,9 @@ def ljsynthesize(text, steps, progress=gr.Progress()):
         raise gr.Error("You must enter some text")
     if len(text) > 150000:
         raise gr.Error("Text must be <150k characters")
+    print("*** saying ***")
+    print(text)
+    print("*** end ***")
     texts = txtsplit(text)
     audios = []
     for t in progress.tqdm(texts):
