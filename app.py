@@ -9,6 +9,8 @@ A free demo of StyleTTS 2. **I am not affiliated with the StyleTTS 2 Authors.**
 Is there a long queue on this space? Duplicate it and add a more powerful GPU to skip the wait! **Note: Thank you to Hugging Face for their generous GPU grant program!**
 
 **NOTE: StyleTTS 2 does better on longer texts.** For example, making it say "hi" will produce a lower-quality result than making it say a longer phrase.
+
+**NOTE: StyleTTS 2 is English-only. Join the Discord for updates on multilingual training**
 """
 import gradio as gr
 import styletts2importable
