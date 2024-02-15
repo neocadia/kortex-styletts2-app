@@ -10,7 +10,7 @@ Is there a long queue on this space? Duplicate it and add a more powerful GPU to
 
 **NOTE: StyleTTS 2 does better on longer texts.** For example, making it say "hi" will produce a lower-quality result than making it say a longer phrase.
 
-**NOTE: StyleTTS 2 is English-only. Join the Discord for updates on multilingual training**
+**NOTE: StyleTTS 2 is _currently_ English-only. Join the Discord for updates on multilingual training.**
 """
 import gradio as gr
 import styletts2importable
