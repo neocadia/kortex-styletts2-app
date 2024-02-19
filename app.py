@@ -94,7 +94,7 @@ def clsynthesize(text, voice, vcsteps, embscale, alpha, beta, progress=gr.Progre
     texts = txtsplit(text)
     audios = []
     # vs = styletts2importable.compute_style(voice)
-    vs = styletts2importable.compute_style('voices/m-us-2.wav')
+    vs = styletts2importable.compute_style(voice)
     # print(vs)
     for t in progress.tqdm(texts):
         audios.append(styletts2importable.inference(t, vs, alpha=alpha, beta=beta, diffusion_steps=vcsteps, embedding_scale=embscale))
