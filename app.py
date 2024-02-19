@@ -133,7 +133,7 @@ with gr.Blocks() as clone:
             clinp = gr.Textbox(label="Text", info="What would you like StyleTTS 2 to read? It works better on full sentences.", interactive=True)
             clvoice = gr.Audio(label="Voice", interactive=True, type='filepath', max_length=300, waveform_options={'waveform_progress_color': '#3C82F6'})
             vcsteps = gr.Slider(minimum=3, maximum=20, value=20, step=1, label="Diffusion Steps", info="Theoretically, higher should be better quality but slower, but we cannot notice a difference. Try with lower steps first - it is faster", interactive=True)
-            embscale = gr.Slider(minimum=1, maximum=10, value=2, step=0.1, label="Embedding Scale", info="Defaults to 2", interactive=True)
+            embscale = gr.Slider(minimum=1, maximum=1.2, value=1, step=0.1, label="Embedding Scale", info="Defaults to 1", interactive=True)
             alpha = gr.Slider(minimum=0, maximum=1, value=0.3, step=0.1, label="Alpha", info="Defaults to 0.3", interactive=True)
             beta = gr.Slider(minimum=0, maximum=1, value=0.7, step=0.1, label="Beta", info="Defaults to 0.7", interactive=True)
         with gr.Column(scale=1):
