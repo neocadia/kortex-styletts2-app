@@ -74,7 +74,7 @@ def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
 #         return (24000, np.concatenate(audios))
 #     else:
 #         raise gr.Error('Wrong access code')
-def clsynthesize(text, voice, vcsteps, progress=gr.Progress()):
+def clsynthesize(text, voice, vcsteps, embscale, alpha, beta, progress=gr.Progress()):
     # if text.strip() == "":
     #     raise gr.Error("You must enter some text")
     # # if global_phonemizer.phonemize([text]) > 300:
@@ -92,7 +92,7 @@ def clsynthesize(text, voice, vcsteps, progress=gr.Progress()):
     texts = txtsplit(text)
     audios = []
     for t in progress.tqdm(texts):
-        audios.append(styletts2importable.inference(t, styletts2importable.compute_style(voice), alpha=0.3, beta=0.7, diffusion_steps=vcsteps, embedding_scale=1))
+        audios.append(styletts2importable.inference(t, styletts2importable.compute_style(voice), alpha=alpha, beta=beta, diffusion_steps=vcsteps, embedding_scale=embscale))
     return (24000, np.concatenate(audios))
 def ljsynthesize(text, steps, progress=gr.Progress()):
     # if text.strip() == "":
@@ -133,10 +133,13 @@ with gr.Blocks() as clone:
             clinp = gr.Textbox(label="Text", info="What would you like StyleTTS 2 to read? It works better on full sentences.", interactive=True)
             clvoice = gr.Audio(label="Voice", interactive=True, type='filepath', max_length=300, waveform_options={'waveform_progress_color': '#3C82F6'})
             vcsteps = gr.Slider(minimum=3, maximum=20, value=20, step=1, label="Diffusion Steps", info="Theoretically, higher should be better quality but slower, but we cannot notice a difference. Try with lower steps first - it is faster", interactive=True)
+            embscale = gr.Slider(minimum=1, maximum=10, value=2, step=0.1, label="Embedding Scale", info="Defaults to 2", interactive=True)
+            alpha = gr.Slider(minimum=0, maximum=1, value=0.3, step=0.1, label="Alpha", info="Defaults to 0.3", interactive=True)
+            beta = gr.Slider(minimum=0, maximum=1, value=0.7, step=0.1, label="Beta", info="Defaults to 0.7", interactive=True)
         with gr.Column(scale=1):
             clbtn = gr.Button("Synthesize", variant="primary")
             claudio = gr.Audio(interactive=False, label="Synthesized Audio", waveform_options={'waveform_progress_color': '#3C82F6'})
-            clbtn.click(clsynthesize, inputs=[clinp, clvoice, vcsteps], outputs=[claudio], concurrency_limit=4)
+            clbtn.click(clsynthesize, inputs=[clinp, clvoice, vcsteps, embscale, alpha, beta], outputs=[claudio], concurrency_limit=4)
 # with gr.Blocks() as longText:
 #     with gr.Row():
 #         with gr.Column(scale=1):
