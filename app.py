@@ -86,13 +86,19 @@ def clsynthesize(text, voice, vcsteps, embscale, alpha, beta, progress=gr.Progre
         raise gr.Error("You must enter some text")
     if len(text) > 50000:
         raise gr.Error("Text must be <50k characters")
+    if embscale > 1.3 and len(text) < 20:
+        gr.Warning("WARNING: You entered short text, you may get static!")
     print("*** saying ***")
     print(text)
     print("*** end ***")
     texts = txtsplit(text)
     audios = []
+    # vs = styletts2importable.compute_style(voice)
+    vs = styletts2importable.compute_style('voices/m-us-2.wav')
+    # print(vs)
     for t in progress.tqdm(texts):
-        audios.append(styletts2importable.inference(t, styletts2importable.compute_style(voice), alpha=alpha, beta=beta, diffusion_steps=vcsteps, embedding_scale=embscale))
+        audios.append(styletts2importable.inference(t, vs, alpha=alpha, beta=beta, diffusion_steps=vcsteps, embedding_scale=embscale))
+        # audios.append(styletts2importable.inference(t, vs, diffusion_steps=10, alpha=0.3, beta=0.7, embedding_scale=5))
     return (24000, np.concatenate(audios))
 def ljsynthesize(text, steps, progress=gr.Progress()):
     # if text.strip() == "":
@@ -133,7 +139,7 @@ with gr.Blocks() as clone:
             clinp = gr.Textbox(label="Text", info="What would you like StyleTTS 2 to read? It works better on full sentences.", interactive=True)
             clvoice = gr.Audio(label="Voice", interactive=True, type='filepath', max_length=300, waveform_options={'waveform_progress_color': '#3C82F6'})
             vcsteps = gr.Slider(minimum=3, maximum=20, value=20, step=1, label="Diffusion Steps", info="Theoretically, higher should be better quality but slower, but we cannot notice a difference. Try with lower steps first - it is faster", interactive=True)
-            embscale = gr.Slider(minimum=1, maximum=1.2, value=1, step=0.1, label="Embedding Scale", info="Defaults to 1", interactive=True)
+            embscale = gr.Slider(minimum=1, maximum=2, value=1, step=0.1, label="Embedding Scale (READ WARNING BELOW)", info="Defaults to 1. WARNING: If you set this too high and generate text that's too short you will get static!", interactive=True)
             alpha = gr.Slider(minimum=0, maximum=1, value=0.3, step=0.1, label="Alpha", info="Defaults to 0.3", interactive=True)
             beta = gr.Slider(minimum=0, maximum=1, value=0.7, step=0.1, label="Beta", info="Defaults to 0.7", interactive=True)
         with gr.Column(scale=1):
