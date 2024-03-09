@@ -56,6 +56,7 @@ def synthesize(text, voice, lngsteps, password, progress=gr.Progress()):
     v = voice.lower()
     audios = []
     for t in progress.tqdm(texts):
+        print(t)
         audios.append(styletts2importable.inference(t, voices[v], alpha=0.3, beta=0.7, diffusion_steps=lngsteps, embedding_scale=1))
     return (24000, np.concatenate(audios))
 # def longsynthesize(text, voice, lngsteps, password, progress=gr.Progress()):
