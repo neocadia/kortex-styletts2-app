@@ -35,6 +35,8 @@ from utils import *
 from text_utils import TextCleaner
 textclenaer = TextCleaner()
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -74,28 +76,28 @@ global_phonemizer = phonemizer.backend.EspeakBackend(language='en-us', preserve_
 
 # phonemizer = Phonemizer.from_checkpoint(str(cached_path('https://public-asai-dl-models.s3.eu-central-1.amazonaws.com/DeepPhonemizer/en_us_cmudict_ipa_forward.pt')))
 
-config = yaml.safe_load(open(str(cached_path('Models/LJSpeech/config.yml'))))
+config = yaml.safe_load(open(os.path.join(current_dir, "Models/LJSpeech/config.yml")))
 # config = yaml.safe_load(open(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/config.yml'))))
 
 # load pretrained ASR model
 ASR_config = config.get('ASR_config', False)
 ASR_path = config.get('ASR_path', False)
-text_aligner = load_ASR_models(ASR_path, ASR_config)
+text_aligner = load_ASR_models(os.path.join(current_dir, ASR_path), os.path.join(current_dir, ASR_config))
 
 # load pretrained F0 model
 F0_path = config.get('F0_path', False)
-pitch_extractor = load_F0_models(F0_path)
+pitch_extractor = load_F0_models(os.path.join(current_dir, F0_path))
 
 # load BERT model
 from Utils.PLBERT.util import load_plbert
 BERT_path = config.get('PLBERT_dir', False)
-plbert = load_plbert(BERT_path)
+plbert = load_plbert(os.path.join(current_dir, BERT_path))
 
 model = build_model(recursive_munch(config['model_params']), text_aligner, pitch_extractor, plbert)
 _ = [model[key].eval() for key in model]
 _ = [model[key].to(device) for key in model]
 
-params_whole = torch.load("Models/LJSpeech/epoch_2nd_00100.pth", map_location='cpu')
+params_whole = torch.load(os.path.join(current_dir, "Models/LJSpeech/epoch_2nd_00100.pth"), map_location='cpu')
 # params_whole = torch.load(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/epoch_2nd_00100.pth')), map_location='cpu')
 params = params_whole['net']
 
