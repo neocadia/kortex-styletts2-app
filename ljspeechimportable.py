@@ -72,8 +72,8 @@ global_phonemizer = phonemizer.backend.EspeakBackend(language='en-us', preserve_
 
 # phonemizer = Phonemizer.from_checkpoint(str(cached_path('https://public-asai-dl-models.s3.eu-central-1.amazonaws.com/DeepPhonemizer/en_us_cmudict_ipa_forward.pt')))
 
-
-config = yaml.safe_load(open(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/config.yml'))))
+config = yaml.safe_load(open(str(cached_path('Models/LJSpeech/config.yml'))))
+# config = yaml.safe_load(open(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/config.yml'))))
 
 # load pretrained ASR model
 ASR_config = config.get('ASR_config', False)
@@ -93,8 +93,8 @@ model = build_model(recursive_munch(config['model_params']), text_aligner, pitch
 _ = [model[key].eval() for key in model]
 _ = [model[key].to(device) for key in model]
 
-# params_whole = torch.load("Models/LJSpeech/epoch_2nd_00100.pth", map_location='cpu')
-params_whole = torch.load(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/epoch_2nd_00100.pth')), map_location='cpu')
+params_whole = torch.load("Models/LJSpeech/epoch_2nd_00100.pth", map_location='cpu')
+# params_whole = torch.load(str(cached_path('hf://yl4579/StyleTTS2-LJSpeech/Models/LJSpeech/epoch_2nd_00100.pth')), map_location='cpu')
 params = params_whole['net']
 
 for key in model:
