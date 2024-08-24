@@ -6,6 +6,8 @@ from cached_path import cached_path
 print("NLTK")
 import nltk
 nltk.download('punkt')
+nltk.download('punkt_tab')
+print("NLTK downloaded")
 print("SCIPY")
 from scipy.io.wavfile import write
 print("TORCH STUFF")

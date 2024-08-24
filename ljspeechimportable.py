@@ -14,6 +14,8 @@ np.random.seed(0)
 
 import nltk
 nltk.download('punkt')
+nltk.download('punkt_tab')
+print("NLTK downloaded")
 
 # load packages
 import time

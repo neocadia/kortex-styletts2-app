@@ -4,6 +4,8 @@ from dp.phonemizer import Phonemizer
 print("NLTK")
 import nltk
 nltk.download('punkt')
+nltk.download('punkt_tab')
+print("NLTK downloaded")
 print("SCIPY")
 from scipy.io.wavfile import write
 print("TORCH STUFF")
