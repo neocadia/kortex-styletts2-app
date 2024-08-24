@@ -20,5 +20,6 @@ phonemizer
 cached-path
 gradio
 gruut
+phonemizer
 #tortoise-tts
 txtsplit
