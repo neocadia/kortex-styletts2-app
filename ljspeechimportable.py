@@ -1,3 +1,11 @@
+import os
+import sys
+
+# Get the directory of the current file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Add current_dir to sys.path
+sys.path.append(current_dir)
+
 from cached_path import cached_path
 
 
@@ -30,13 +38,10 @@ import torchaudio
 import librosa
 from nltk.tokenize import word_tokenize
 
-from models import *
-from utils import *
+from .models import *
+from .utils import *
 from text_utils import TextCleaner
 textclenaer = TextCleaner()
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
