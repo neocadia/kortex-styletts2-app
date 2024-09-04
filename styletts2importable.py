@@ -3,6 +3,8 @@ import sys
 
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
+# Get the directory of the master script
+master_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 # Add current_dir to sys.path
 sys.path.append(current_dir)
 
@@ -90,7 +92,8 @@ global_phonemizer = phonemizer.backend.EspeakBackend(language='en-us', preserve_
 # phonemizer = Phonemizer.from_checkpoint(str(cached_path('https://public-asai-dl-models.s3.eu-central-1.amazonaws.com/DeepPhonemizer/en_us_cmudict_ipa_forward.pt')))
 
 
-config = yaml.safe_load(open(os.path.join(current_dir, "Models/LibriTTS/config.yml")))
+config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/vokan/Model_config.yml")))
+# config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/LibriTTS/config.yml")))
 # config = yaml.safe_load(open(str(cached_path("hf://yl4579/StyleTTS2-LibriTTS/Models/LibriTTS/config.yml"))))
 
 # load pretrained ASR model
@@ -114,7 +117,8 @@ model = build_model(model_params, text_aligner, pitch_extractor, plbert)
 _ = [model[key].eval() for key in model]
 _ = [model[key].to(device) for key in model]
 
-params_whole = torch.load(os.path.join(current_dir, "Models/LibriTTS/epochs_2nd_00020.pth"), map_location='cpu')
+params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/vokan/epoch_2nd_00012.pth"), map_location='cpu')
+# params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/LibriTTS/epochs_2nd_00020.pth"), map_location='cpu')
 # params_whole = torch.load(str(cached_path("hf://yl4579/StyleTTS2-LibriTTS/Models/LibriTTS/epochs_2nd_00020.pth")), map_location='cpu')
 params = params_whole['net']
 
@@ -145,7 +149,7 @@ sampler = DiffusionSampler(
     clamp=False
 )
 
-def inference(text, ref_s, alpha = 0.3, beta = 0.7, diffusion_steps=5, embedding_scale=1, use_gruut=False):
+def inference(text: str, ref_s: torch.Tensor, alpha: float = 0.3, beta: float = 0.7, diffusion_steps: int = 5, embedding_scale: float = 1, use_gruut: bool = False):
     text = text.strip()
     ps = global_phonemizer.phonemize([text])
     ps = word_tokenize(ps[0])
@@ -214,7 +218,7 @@ def inference(text, ref_s, alpha = 0.3, beta = 0.7, diffusion_steps=5, embedding
 
     return out.squeeze().cpu().numpy()[..., :-50] # weird pulse at the end of the model, need to be fixed later
 
-def LFinference(text, s_prev, ref_s, alpha = 0.3, beta = 0.7, t = 0.7, diffusion_steps=5, embedding_scale=1, use_gruut=False):
+def LFinference(text: str, s_prev: torch.Tensor | None, ref_s: torch.Tensor, alpha: float = 0.3, beta: float = 0.7, t: float = 0.7, diffusion_steps: int = 5, embedding_scale: float = 1, use_gruut: bool = False):
     text = text.strip()
     ps = global_phonemizer.phonemize([text])
     ps = word_tokenize(ps[0])
