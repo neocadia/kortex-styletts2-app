@@ -92,8 +92,8 @@ global_phonemizer = phonemizer.backend.EspeakBackend(language='en-us', preserve_
 # phonemizer = Phonemizer.from_checkpoint(str(cached_path('https://public-asai-dl-models.s3.eu-central-1.amazonaws.com/DeepPhonemizer/en_us_cmudict_ipa_forward.pt')))
 
 
-config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/vokan/Model_config.yml")))
-# config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/LibriTTS/config.yml")))
+# config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/vokan/Model_config.yml")))
+config = yaml.safe_load(open(os.path.join(master_dir, "models/styletts2/models/LibriTTS/config.yml")))
 # config = yaml.safe_load(open(str(cached_path("hf://yl4579/StyleTTS2-LibriTTS/Models/LibriTTS/config.yml"))))
 
 # load pretrained ASR model
@@ -117,8 +117,8 @@ model = build_model(model_params, text_aligner, pitch_extractor, plbert)
 _ = [model[key].eval() for key in model]
 _ = [model[key].to(device) for key in model]
 
-params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/vokan/epoch_2nd_00012.pth"), map_location='cpu')
-# params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/LibriTTS/epochs_2nd_00020.pth"), map_location='cpu')
+# params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/vokan/epoch_2nd_00012.pth"), map_location='cpu')
+params_whole = torch.load(os.path.join(master_dir, "models/styletts2/models/LibriTTS/epochs_2nd_00020.pth"), map_location='cpu')
 # params_whole = torch.load(str(cached_path("hf://yl4579/StyleTTS2-LibriTTS/Models/LibriTTS/epochs_2nd_00020.pth")), map_location='cpu')
 params = params_whole['net']
 
